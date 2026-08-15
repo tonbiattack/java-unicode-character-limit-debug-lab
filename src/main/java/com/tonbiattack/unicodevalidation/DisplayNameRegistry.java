@@ -19,8 +19,8 @@ public final class DisplayNameRegistry {
      * 表示名を文字数上限に照らして登録します。
      */
     public RegistrationResult register(String displayName) {
-        // バグ状態: UTF-16のコード単位数を利用者向けの文字数として扱っている。
-        int measuredCharacterCount = displayName.length();
+        // Unicodeコードポイント数で数え、補助文字を2文字として扱わない。
+        int measuredCharacterCount = displayName.codePointCount(0, displayName.length());
         if (measuredCharacterCount > maximumCharacterCount) {
             return RegistrationResult.rejected(
                     measuredCharacterCount,
